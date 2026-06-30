@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSI204 Workshop #1 — Project Documentation with GitHub</title>
+
+    <style>
+        /* ============================================================
+   ROOT VARIABLES — Dark Blue / White / Yellow Theme
+   ============================================================ */
+        :root {
+            --navy-900: #070b18;
+            --navy-800: #0c1326;
+            --navy-700: #121b35;
+            --navy-600: #1a2647;
+            --navy-500: #243260;
+            --white: #f7f8fc;
+            --gray-300: #b9c0d4;
+            --gray-400: #8b93ad;
+            --yellow: #ffc93c;
+            --yellow-soft: #ffe28a;
+            --radius-lg: 22px;
+            --radius-md: 16px;
+            --radius-sm: 10px;
+            --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.25);
+            --shadow-hover: 0 18px 40px rgba(0, 0, 0, 0.35);
+            --transition: all .35s cubic-bezier(.22, .61, .36, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--navy-900);
+            color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        section {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        /* Section heading style shared across sections */
+        .section-heading {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-heading .tag {
+            display: inline-block;
+            color: var(--yellow);
+            letter-spacing: 3px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .section-heading h2 {
+            font-size: 2.3rem;
+            font-weight: 800;
+            color: var(--white);
+        }
+
+        .section-heading p {
+            color: var(--gray-300);
+            max-width: 620px;
+            margin: 14px auto 0;
+            font-size: 1rem;
+        }
+
+        /* ============================================================
+   FADE-IN ON SCROLL (applied via JS toggling .visible)
+   ============================================================ */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity .8s ease, transform .8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ============================================================
+   NAVIGATION BAR
+   ============================================================ */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(7, 11, 24, 0.75);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .navbar .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 68px;
+        }
+
+        .nav-brand {
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: var(--white);
+        }
+
+        .nav-brand span {
+            color: var(--yellow);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 26px;
+        }
+
+        .nav-links a {
+            font-size: 0.88rem;
+            color: var(--gray-300);
+            font-weight: 600;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--yellow);
+        }
+
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        .nav-toggle span {
+            width: 24px;
+            height: 2px;
+            background: var(--white);
+            border-radius: 2px;
+        }
+
+        /* ============================================================
+   HERO SECTION
+   ============================================================ */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(36, 50, 96, 0.6), transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 201, 60, 0.08), transparent 50%),
+                linear-gradient(160deg, var(--navy-900) 0%, var(--navy-700) 50%, var(--navy-800) 100%);
+        }
+
+        /* Floating shapes — pure CSS animation */
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(2px);
+            opacity: 0.35;
+            animation: float 9s ease-in-out infinite;
+        }
+
+        .shape:nth-child(1) {
+            width: 140px;
+            height: 140px;
+            background: radial-gradient(circle, rgba(255, 201, 60, 0.5), transparent 70%);
+            top: 12%;
+            left: 8%;
+            animation-duration: 10s;
+        }
+
+        .shape:nth-child(2) {
+            width: 90px;
+            height: 90px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.25), transparent 70%);
+            top: 65%;
+            left: 15%;
+            animation-duration: 8s;
+            animation-delay: 1s;
+        }
+
+        .shape:nth-child(3) {
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(36, 50, 96, 0.7), transparent 70%);
+            top: 20%;
+            right: 10%;
+            animation-duration: 12s;
+            animation-delay: 2s;
+        }
+
+        .shape:nth-child(4) {
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, rgba(255, 201, 60, 0.4), transparent 70%);
+            bottom: 15%;
+            right: 20%;
+            animation-duration: 7s;
+            animation-delay: 0.5s;
+        }
+
+        .shape:nth-child(5) {
+            width: 110px;
+            height: 110px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.15), transparent 70%);
+            bottom: 8%;
+            left: 45%;
+            animation-duration: 11s;
+            animation-delay: 1.5s;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) translateX(0);
+            }
+
+            50% {
+                transform: translateY(-40px) translateX(20px);
+            }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 0 20px;
+        }
+
+        .hero-eyebrow {
+            display: inline-block;
+            padding: 8px 18px;
+            border: 1px solid rgba(255, 201, 60, 0.4);
+            border-radius: 50px;
+            color: var(--yellow);
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 26px;
+            background: rgba(255, 201, 60, 0.06);
+        }
+
+        .hero h1 {
+            font-size: clamp(2.4rem, 6vw, 4.2rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 18px;
+            background: linear-gradient(120deg, var(--white) 30%, var(--yellow-soft) 90%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero h2 {
+            font-size: clamp(1.1rem, 2.6vw, 1.6rem);
+            font-weight: 600;
+            color: var(--gray-300);
+            margin-bottom: 14px;
+        }
+
+        .hero h3 {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            font-weight: 400;
+            color: var(--gray-400);
+        }
+
+        .scroll-hint {
+            margin-top: 60px;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            color: var(--gray-400);
+            font-size: 0.8rem;
+        }
+
+        .scroll-hint .arrow {
+            width: 10px;
+            height: 10px;
+            border-right: 2px solid var(--yellow);
+            border-bottom: 2px solid var(--yellow);
+            transform: rotate(45deg);
+            animation: bounce 1.8s infinite;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(45deg);
+            }
+
+            50% {
+                transform: translateY(8px) rotate(45deg);
+            }
+        }
+
+        /* ============================================================
+   GENERIC CARD
+   ============================================================ */
+        .card {
+            background: linear-gradient(165deg, var(--navy-700), var(--navy-800));
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: var(--radius-lg);
+            padding: 34px 28px;
+            box-shadow: var(--shadow-soft);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+            border-color: rgba(255, 201, 60, 0.35);
+        }
+
+        .grid {
+            display: grid;
+            gap: 28px;
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .grid-2 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        /* ============================================================
+   STUDENT INFO CARDS
+   ============================================================ */
+        .student-card {
+            text-align: center;
+        }
+
+        .student-card .icon-badge {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(255, 201, 60, 0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 18px;
+            font-size: 1.5rem;
+        }
+
+        .student-card .label {
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--yellow);
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .student-card .value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--white);
+        }
+
+        /* ============================================================
+   OVERVIEW
+   ============================================================ */
+        .overview-box {
+            display: flex;
+            gap: 36px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .overview-text {
+            flex: 1 1 420px;
+        }
+
+        .overview-text p {
+            color: var(--gray-300);
+            margin-bottom: 16px;
+            font-size: 1.02rem;
+        }
+
+        .overview-pillbox {
+            flex: 1 1 320px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .pill {
+            padding: 10px 18px;
+            background: var(--navy-700);
+            border: 1px solid rgba(255, 201, 60, 0.25);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--yellow-soft);
+        }
+
+        /* ============================================================
+   OBJECTIVES — ICON CARDS
+   ============================================================ */
+        .obj-card {
+            text-align: center;
+        }
+
+        .obj-card .icon-circle {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--yellow), var(--yellow-soft));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 1.8rem;
+            box-shadow: 0 8px 20px rgba(255, 201, 60, 0.25);
+        }
+
+        .obj-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: var(--white);
+        }
+
+        .obj-card p {
+            font-size: 0.9rem;
+            color: var(--gray-400);
+        }
+
+        /* ============================================================
+   ANALYSIS CARDS
+   ============================================================ */
+        .analysis-card .icon-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            margin-bottom: 18px;
+        }
+
+        .analysis-card.problem .icon-circle {
+            background: rgba(255, 99, 99, 0.15);
+            color: #ff7676;
+        }
+
+        .analysis-card.solution .icon-circle {
+            background: rgba(255, 201, 60, 0.15);
+            color: var(--yellow);
+        }
+
+        .analysis-card.benefits .icon-circle {
+            background: rgba(94, 200, 160, 0.15);
+            color: #5ec8a0;
+        }
+
+        .analysis-card h3 {
+            margin-bottom: 12px;
+            font-size: 1.15rem;
+        }
+
+        .analysis-card p,
+        .analysis-card li {
+            color: var(--gray-300);
+            font-size: 0.92rem;
+        }
+
+        .analysis-card ul {
+            padding-left: 18px;
+            list-style: disc;
+        }
+
+        .analysis-card li {
+            margin-bottom: 6px;
+        }
+
+        /* ============================================================
+   TIMELINE — DESIGN WORKFLOW
+   ============================================================ */
+        .timeline {
+            position: relative;
+            max-width: 520px;
+            margin: 0 auto;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(var(--yellow), var(--navy-500));
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding: 0 0 50px 0;
+            text-align: center;
+        }
+
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .timeline-dot {
+            width: 18px;
+            height: 18px;
+            background: var(--yellow);
+            border: 4px solid var(--navy-900);
+            border-radius: 50%;
+            margin: 0 auto 14px;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 0 0 4px rgba(255, 201, 60, 0.2);
+        }
+
+        .timeline-label {
+            display: inline-block;
+            background: var(--navy-700);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 14px 26px;
+            border-radius: var(--radius-md);
+            font-weight: 700;
+            font-size: 1rem;
+            box-shadow: var(--shadow-soft);
+            transition: var(--transition);
+        }
+
+        .timeline-label:hover {
+            border-color: var(--yellow);
+            transform: scale(1.05);
+        }
+
+        .timeline-arrow {
+            color: var(--yellow);
+            font-size: 1.3rem;
+            margin: 8px 0 0;
+        }
+
+        /* ============================================================
+   SYSTEM ARCHITECTURE DIAGRAM (pure HTML/CSS)
+   ============================================================ */
+        .arch-diagram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+        }
+
+        .arch-block {
+            width: 100%;
+            max-width: 380px;
+            background: linear-gradient(135deg, var(--navy-700), var(--navy-600));
+            border: 1px solid rgba(255, 201, 60, 0.25);
+            border-radius: var(--radius-md);
+            padding: 20px 26px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1rem;
+            box-shadow: var(--shadow-soft);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .arch-block small {
+            display: block;
+            font-weight: 400;
+            font-size: 0.78rem;
+            color: var(--gray-400);
+            margin-top: 4px;
+        }
+
+        .arch-block:hover {
+            border-color: var(--yellow);
+            transform: translateY(-4px);
+        }
+
+        .arch-arrow {
+            width: 2px;
+            height: 34px;
+            background: linear-gradient(var(--yellow), var(--navy-500));
+            position: relative;
+        }
+
+        .arch-arrow::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 7px solid transparent;
+            border-right: 7px solid transparent;
+            border-top: 9px solid var(--yellow);
+        }
+
+        /* ============================================================
+   TECHNOLOGIES — BADGES
+   ============================================================ */
+        .badge-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 14px;
+        }
+
+        .badge {
+            padding: 12px 24px;
+            background: var(--navy-700);
+            border: 1px solid rgba(255, 201, 60, 0.3);
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.92rem;
+            color: var(--white);
+            transition: var(--transition);
+            cursor: default;
+        }
+
+        .badge:hover {
+            background: var(--yellow);
+            color: var(--navy-900);
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 10px 20px rgba(255, 201, 60, 0.25);
+        }
+
+        /* ============================================================
+   REPOSITORY STRUCTURE — CODE BLOCK
+   ============================================================ */
+        .code-block {
+            background: var(--navy-800);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius-md);
+            padding: 26px 30px;
+            overflow-x: auto;
+            box-shadow: var(--shadow-soft);
+            max-width: 640px;
+            margin: 0 auto;
+        }
+
+        .code-block pre {
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.92rem;
+            color: var(--gray-300);
+            line-height: 1.7;
+            white-space: pre;
+        }
+
+        .code-block .folder {
+            color: var(--yellow);
+        }
+
+        .code-block .file {
+            color: var(--white);
+        }
+
+        .code-block .comment {
+            color: var(--gray-400);
+            font-style: italic;
+        }
+
+        /* ============================================================
+   CTA BUTTONS (Repository / GitHub Pages)
+   ============================================================ */
+        .cta-section {
+            text-align: center;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 38px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+
+        .btn-primary {
+            background: var(--yellow);
+            color: var(--navy-900);
+            box-shadow: 0 10px 26px rgba(255, 201, 60, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 34px rgba(255, 201, 60, 0.4);
+        }
+
+        .btn-outline {
+            border-color: var(--yellow);
+            color: var(--yellow);
+            background: transparent;
+        }
+
+        .btn-outline:hover {
+            background: rgba(255, 201, 60, 0.1);
+            transform: translateY(-4px);
+        }
+
+        /* ============================================================
+   FOOTER
+   ============================================================ */
+        footer {
+            background: var(--navy-800);
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            text-align: center;
+            padding: 50px 24px;
+        }
+
+        footer h4 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        footer h4 span {
+            color: var(--yellow);
+        }
+
+        footer p {
+            color: var(--gray-400);
+            font-size: 0.9rem;
+        }
+
+        /* ============================================================
+   RESPONSIVE
+   ============================================================ */
+        @media (max-width:900px) {
+            .grid-3 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .nav-links {
+                position: absolute;
+                top: 68px;
+                left: 0;
+                right: 0;
+                background: var(--navy-800);
+                flex-direction: column;
+                padding: 20px 24px;
+                gap: 18px;
+                display: none;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            }
+
+            .nav-links.open {
+                display: flex;
+            }
+
+            .nav-toggle {
+                display: flex;
+            }
+        }
+
+        @media (max-width:600px) {
+            section {
+                padding: 70px 0;
+            }
+
+            .grid-3,
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .overview-box {
+                flex-direction: column;
+            }
+
+            .section-heading h2 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">CSI204<span>.</span></div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#student-info">Student</a></li>
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#objectives">Objectives</a></li>
+                <li><a href="#analysis">Analysis</a></li>
+                <li><a href="#workflow">Workflow</a></li>
+                <li><a href="#architecture">Architecture</a></li>
+                <li><a href="#technologies">Tech</a></li>
+                <li><a href="#repo-structure">Structure</a></li>
+            </ul>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ============================================================
+     1. HERO SECTION
+     ============================================================ -->
+    <header class="hero" id="hero">
+        <!-- Floating animated shapes -->
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+
+        <div class="hero-content">
+            <span class="hero-eyebrow">Course Workshop Documentation</span>
+            <h1>CSI204</h1>
+            <h2>Workshop #1</h2>
+            <h3>Project Documentation with GitHub</h3>
+            <div class="scroll-hint">
+                Scroll to explore
+                <span class="arrow"></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- ============================================================
+     2. STUDENT INFORMATION
+     ============================================================ -->
+    <section id="student-info">
+        <div class="container">
+            <div class="section-heading fade-in">
+                <span class="tag">Who am I</span>
+                <h2>Student Information</h2>
+                <p>Basic details of the student submitting this workshop documentation.</p>
+            </div>
+            <div class="grid grid-3">
+                <div class="card student-card fade-in">
+                    <div class="icon-badge">🧑‍💻</div>
+                    <div class="label">Name</div>
+                    <div class="value">Thatsanon Kaisomsat</div>
+                </div>
+                <div class="card student-card fade-in">
+                    <div class="icon-badge">🪪</div>
+                    <div class="label">Student ID</div>
+                    <div class="value">67112761</div>
+                </div>
+                <div class="card student-card fade-in">
+                    <div class="icon-badge">🏫</div>
+                    <div class="label">Section</div>
+                    <div class="value">CSI204</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+     3. PROJECT OVERVIEW
+     ============================================================ -->
+    <section id="overview" style="background:var(--navy-800);">
+        <div class="container">
+            <div class="section-heading fade-in">
+                <span class="tag">About the workshop</span>
+                <h2>Project Overview</h2>
+            </div>
+            <div class="overview-box fade-in">
+                <div class="overview-text">
+                    <p>
+                        This workshop focuses on building a solid foundation in modern
+                        software collaboration tools. Students learn how to use
+                        <strong>Git</strong> for version control, <strong>GitHub</strong>
+                        for remote repository hosting and collaboration, and
+                        <strong>SourceTree</strong> as a visual Git client to simplify
+                        everyday version control operations.
+                    </p>
+                    <p>
+                        In addition to source control, the workshop introduces
+                        <strong>Markdown</strong> for writing clean, structured
+                        documentation, and <strong>GitHub Pages</strong> for publishing
+                        static websites directly from a repository — exactly like the
+                        page you are viewing right now.
+                    </p>
+                </div>
+                <div class="overview-pillbox">
+                    <span class="pill">Version Control</span>
+                    <span class="pill">Collaboration</span>
+                    <span class="pill">Documentation</span>
+                    <span class="pill">Static Hosting</span>
+                    <span class="pill">Open Source Workflow</span>
+                    <span class="pill">Continuous Learning</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+     4. OBJECTIVES — ICON CARDS
+     ============================================================ -->
+    <section id="objectives">
+        <div class="container">
+            <div class="section-heading fade-in">
+                <span class="tag">What we learn</span>
+                <h2>Objectives</h2>
+                <p>The core tools and skills covered throughout this workshop.</p>
+            </div>
+            <div class="grid grid-3">
+                <div class="card obj-card fade-in">
+                    <div class="icon-circle">🌿</div>
+                    <h3>Git</h3>
+                    <p>Understand version control fundamentals: commits, branches, and history tracking.</p>
+                </div>
+                <div class="card obj-card fade-in">
+                    <div class="icon-circle">🐙</div>
+                    <h3>GitHub</h3>
+                    <p>Host repositories remotely and collaborate with others through pull requests.</p>
+                </div>
+                <div class="card obj-card fade-in">
+                    <div class="icon-circle">🌳</div>
+                    <h3>SourceTree</h3>
+                    <p>Use a visual Git client to manage repositories without memorizing commands.</p>
+                </div>
+                <div class="card obj-card fade-in">
+                    <div class="icon-circle">📝</div>
+                    <h3>Markdown</h3>
+                    <p>Write clean, readable documentation using lightweight Markdown syntax.</p>
+                </div>
+                <div class="card obj-card fade-in">
+                    <div class="icon-circle">🌐</div>
+                    <h3>GitHub Pages</h3>
+                    <p>Publish static websites directly from a GitHub repository for free.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+     5. ANALYSIS — PROBLEM / SOLUTION / BENEFITS
+     ============================================================ -->
+    <section id="analysis" style="background:var(--navy-800);">
+        <div class="container">
+            <div class="section-heading fade-in">
+                <span class="tag">Why this matters</span>
+                <h2>Analysis</h2>
+            </div>
+            <div class="grid grid-3">
+                <div class="card analysis-card problem fade-in">
+                    <div class="icon-circle">⚠️</div>
+                    <h3>Problem</h3>
+                    <ul>
+                        <li>Manual file versioning leads to confusion and lost work.</li>
+                        <li>Collaborating on code without a shared system is error-prone.</li>
+                        <li>No standard way to publish or document a project online.</li>
+                    </ul>
+                </div>
+                <div class="card analysis-card solution fade-in">
+                    <div class="icon-circle">💡</div>
+                    <h3>Solution</h3>
+                    <ul>
+                        <li>Adopt Git for reliable, traceable version control.</li>
+                        <li>Use GitHub as a central remote repository for collaboration.</li>
+                        <li>Document with Markdown and deploy instantly via GitHub Pages.</li>
+                    </ul>
+                </div>
+                <div class="card analysis-card benefits fade-in">
+                    <div class="icon-circle">✅</div>
+                    <h3>Benefits</h3>
+                    <ul>
+                        <li>Safer, organized, and fully trackable project history.</li>
+                        <li>Smoother teamwork through branches and pull requests.</li>
+                        <li>Free, fast publishing of professional documentation sites.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+     6. DESIGN WORKFLOW — VERTICAL TIMELINE
+     ============================================================ -->
+    <section id="workflow">
+        <div class="container">
+            <div class="section-heading fade-in">
+                <span class="tag">Step by step</span>
+                <h2>Design Workflow</h2>
+                <p>The typical Git workflow followed throughout this project.</p>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item fade-in">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-label">Create Repository</div>
+                </div>
+                <div class="timeline-item fade-in">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-label">Clone</div>
+                </div>
+                <div class="timeline-item fade-in">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-label">Commit</div>
+                </div>
+                <div class="timeline-item fade-in">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-label">Push</div>
+                </div>
+                <div class="timeline-item fade-in">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-label">Pull</div>
+                </div>
+                <div class="timeline-item fade-in">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-label">Branch</div>
+                </div>
+                <div class="timeline-item fade-in">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-label">Merge</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+     7. SYSTEM ARCHITECTURE — PURE HTML/CSS DIAGRAM
+     ============================================================ -->
+    <section id="architecture" style="background:var(--navy-800);">
+        <div class="container">
+            <div class="section-heading fade-in">
+                <span class="tag">How it connects</span>
+                <h2>System Architecture</h2>
+                <p>Data flow from local development to a live published website.</p>
+            </div>
+            <div class="arch-diagram fade-in">
+                <div class="arch-block">Developer<small>Writes &amp; edits project files</small></div>
+                <div class="arch-arrow"></div>
+                <div class="arch-block">SourceTree<small>Visual Git client</small></div>
+                <div class="arch-arrow"></div>
+                <div class="arch-block">Local Repository<small>.git on local machine</small></div>
+                <div class="arch-arrow"></div>
+                <div class="arch-block">GitHub Repository<small>Remote hosted repository</small></div>
+                <div class="arch-arrow"></div>
+                <div class="arch-block">GitHub Pages<small>Live published website</small></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+     8. TECHNOLOGIES — BADGES
+     ============================================================ -->
+    <section id="technologies">
+        <div class="container">
+            <div class="section-heading fade-in">
+                <span class="tag">Toolbox</span>
+                <h2>Technologies</h2>
+            </div>
+            <div class="badge-wrap fade-in">
+                <span class="badge">Git</span>
+                <span class="badge">GitHub</span>
+                <span class="badge">Markdown</span>
+                <span class="badge">HTML5</span>
+                <span class="badge">CSS3</span>
+                <span class="badge">SourceTree</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+     9. REPOSITORY STRUCTURE — CODE BLOCK
+     ============================================================ -->
+    <section id="repo-structure" style="background:var(--navy-800);">
+        <div class="container">
+            <div class="section-heading fade-in">
+                <span class="tag">Inside the repo</span>
+                <h2>Repository Structure</h2>
+            </div>
+            <div class="code-block fade-in">
+                <pre><span class="comment"># Project root</span>
+<span class="folder">csi204-workshop-1/</span>
+├── <span class="file">index.html</span>          <span class="comment"># Main documentation page</span>
+├── <span class="file">README.md</span>           <span class="comment"># Project description</span>
+├── <span class="folder">assets/</span>
+│   ├── <span class="folder">images/</span>       <span class="comment"># Screenshots</span>
+└── <span class="file">.gitignore</span>          <span class="comment"># Ignored files list</span>
+</pre>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+     10. REPOSITORY URL
+     ============================================================ -->
+    <section id="repository">
+        <div class="container cta-section fade-in">
+            <span class="tag"
+                style="color:var(--yellow);letter-spacing:3px;font-weight:700;font-size:0.78rem;text-transform:uppercase;">Source
+                Code</span>
+            <h2 style="margin:14px 0 28px;font-size:2rem;">Repository URL</h2>
+            <a href="https://github.com/Thxsnxn/Thxsnxn-CSI204-Lab3.git" target="_blank" rel="noopener noreferrer"
+                class="btn btn-primary">
+                🐙 View on GitHub
+            </a>
+        </div>
+    </section>
+
+    <!-- ============================================================
+     11. GITHUB PAGES
+     ============================================================ -->
+    <section id="pages" style="background:var(--navy-800);">
+        <div class="container cta-section fade-in">
+            <span class="tag"
+                style="color:var(--yellow);letter-spacing:3px;font-weight:700;font-size:0.78rem;text-transform:uppercase;">Live
+                Demo</span>
+            <h2 style="margin:14px 0 28px;font-size:2rem;">GitHub Pages</h2>
+            <a href="https://your-username.github.io/csi204-workshop-1" target="_blank" rel="noopener noreferrer"
+                class="btn btn-outline">
+                🌐 Visit Live Site
+            </a>
+        </div>
+    </section>
+
+    <!-- ============================================================
+     12. FOOTER
+     ============================================================ -->
+    <footer>
+        <h4>CSI204 <span>Workshop #1</span></h4>
+        <p>Made by Thatsanon Kaisomsat</p>
+    </footer>
+
+    <!-- ============================================================
+     JAVASCRIPT — Vanilla JS only
+     ============================================================ -->
+    <script>
+        // ---- Mobile nav toggle ----
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        navToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('open');
+        });
+
+        // Close mobile menu when a link is clicked
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => navLinks.classList.remove('open'));
+        });
+
+        // ---- Fade-in on scroll using IntersectionObserver ----
+        const faders = document.querySelectorAll('.fade-in');
+
+        const appearOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -60px 0px'
+        };
+
+        const appearOnScroll = new IntersectionObserver(function (entries, observer) {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            });
+        }, appearOptions);
+
+        faders.forEach(fader => appearOnScroll.observe(fader));
+    </script>
+
+</body>
+
+</html>

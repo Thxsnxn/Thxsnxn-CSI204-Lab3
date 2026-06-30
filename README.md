@@ -1,11 +1,11 @@
 # CSI204 Workshop #1
 ## Project Documentation with GitHub
 
-> Course: CSI204 - Digital Platform for Software Development
+> **Course:** CSI204 - Digital Platform for Software Development
 
 ---
 
-## Student Information
+# Student Information
 
 | Item | Information |
 |------|-------------|
@@ -13,66 +13,106 @@
 | Student ID | 67112761 |
 | Section | T001 |
 
-> **หมายเหตุ:** เปลี่ยน Student ID และ Section เป็นข้อมูลจริงของคุณ
+> แก้ Student ID และ Section เป็นข้อมูลจริง
 
 ---
 
 # Project Overview
 
-This workshop demonstrates the use of Git, GitHub, and SourceTree for version control and project documentation.
+This workshop demonstrates the use of Git, GitHub, SourceTree, Markdown, and GitHub Pages for software project documentation.
 
-The objective is to understand the Git workflow, collaborate using GitHub, and publish project documentation via GitHub Pages.
+The project focuses on learning version control, collaboration, project documentation, and website publishing through GitHub.
 
 ---
 
 # Objectives
 
-- Create a GitHub Repository
-- Clone Repository using SourceTree
-- Commit project files
-- Push changes to GitHub
-- Pull latest changes
-- Create a new Branch
-- Merge Branch into Main
-- Publish documentation using GitHub Pages
+- Learn Git Version Control
+- Learn GitHub Repository
+- Learn SourceTree
+- Learn Markdown Documentation
+- Learn GitHub Pages
+- Understand Branching and Merging
 
 ---
 
-# Tools
+# Analysis
 
-- Git
-- GitHub
-- SourceTree
-- Markdown
-- Windows 10
+## Problem
 
----
+Managing software projects without version control can lead to file duplication, data loss, and collaboration issues.
 
-# Git Workflow
+## Solution
 
-## 1. Create Repository
+Git and GitHub provide version control, while SourceTree offers a graphical interface for managing repositories efficiently.
 
-A repository was created on GitHub.
+## Benefits
 
----
-
-## 2. Clone Repository
-
-The repository was cloned to the local computer using SourceTree.
+- Version Control
+- Easy Collaboration
+- Backup on Cloud
+- Project History
+- Easy Rollback
 
 ---
 
-## 3. Add Project Files
+# Design
 
-Created
+## Git Workflow
+
+1. Create Repository
+2. Clone Repository
+3. Add Project Files
+4. Commit
+5. Push
+6. Pull
+7. Create Branch
+8. Merge Branch
+
+---
+
+# System Architecture
+
+```mermaid
+graph TD
+
+A[Developer]
+
+B[SourceTree]
+
+C[Local Repository]
+
+D[GitHub Repository]
+
+E[GitHub Pages]
+
+A --> B
+B --> C
+C --> D
+D --> E
+```
+
+---
+
+# Workshop Activities
+
+## Step 1
+
+Created GitHub Repository successfully.
+
+## Step 2
+
+Cloned repository using SourceTree.
+
+## Step 3
+
+Added project file
 
 ```
 hello.txt
 ```
 
----
-
-## 4. Commit
+## Step 4
 
 Commit Message
 
@@ -80,33 +120,25 @@ Commit Message
 Add hello.txt
 ```
 
----
+## Step 5
 
-## 5. Push
+Push changes to GitHub.
 
-Uploaded local changes to GitHub.
+## Step 6
 
----
+Pull latest changes.
 
-## 6. Pull
+## Step 7
 
-Retrieved the latest version from GitHub.
-
----
-
-## 7. Create Branch
-
-Created
+Created branch
 
 ```
 feature-test
 ```
 
----
+## Step 8
 
-## 8. Update File
-
-Updated
+Modified
 
 ```
 hello.txt
@@ -118,9 +150,7 @@ Added
 This is feature branch.
 ```
 
----
-
-## 9. Commit in Feature Branch
+## Step 9
 
 Commit Message
 
@@ -128,23 +158,9 @@ Commit Message
 Update hello.txt in feature branch
 ```
 
----
+## Step 10
 
-## 10. Merge Branch
-
-Merged
-
-```
-feature-test
-```
-
-into
-
-```
-main
-```
-
-Successfully completed.
+Merged feature-test into main successfully.
 
 ---
 
@@ -154,45 +170,64 @@ Successfully completed.
 CSI204-Lab3
 │
 ├── README.md
+├── index.html
 └── hello.txt
 ```
 
 ---
 
-# Result
+# Screenshots
 
-Successfully completed the Git workflow using GitHub and SourceTree.
+> เพิ่มภาพหน้าจอในโฟลเดอร์ assets เช่น
 
-Completed tasks
+- GitHub Repository
+- SourceTree Commit History
+- Merge Result
+- GitHub Pages
 
-- Repository
-- Clone
-- Commit
-- Push
-- Pull
-- Branch
-- Merge
+ตัวอย่าง
+
+```
+assets/
+├── repository.png
+├── commit-history.png
+├── merge.png
+└── github-pages.png
+```
 
 ---
 
-# Repository
+# Technologies
 
-GitHub Repository
+- Git
+- GitHub
+- SourceTree
+- Markdown
+- Mermaid
+- GitHub Pages
 
-> (ใส่ลิงก์ Repository ของคุณที่นี่)
+---
+
+# Repository URL
+
+https://github.com/Thxsnxn/Thxsnxn-CSI204-Lab3.git
 
 ---
 
 # GitHub Pages
 
-GitHub Pages URL
-
-> (ใส่ลิงก์ GitHub Pages หลังเปิดใช้งาน)
+https://thxsnxn.github.io/Thxsnxn-CSI204-Lab3/
 
 ---
 
-# Author
+# Conclusion
 
-Pakorn
+This workshop successfully demonstrates the use of Git, GitHub, SourceTree, Markdown documentation, Branching, Merging, and GitHub Pages for software development workflow.
 
-CSI204 Workshop #1
+---
+
+# References
+
+- https://git-scm.com/
+- https://github.com/
+- https://docs.github.com/
